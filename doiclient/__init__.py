@@ -1,4 +1,4 @@
 #!/usr/bin/env python
 
 from exceptions import *
-from doi import resolve, normalize
+from .doiclient import resolve, normalize

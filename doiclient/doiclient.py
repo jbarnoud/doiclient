@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-import requests
-from .exception import *
+#import requests
+from .exceptions import *
 
 SHORTCUTS = {
     "xml": "application/rdf+xml",
@@ -16,6 +16,20 @@ SHORTCUTS = {
 
 
 def normalize(doi):
+    """
+    Normalize a DOI
+
+    A DOI can be formated on several ways. This function aims to translate the
+    into a canonical one that look like <prefix>/<sufix>. Extra spacing
+    characters is removed so as "doi", "DOI", "doi:", or "DOI:" strings.
+
+    >>> normalize("10.1073/pnas.1009362108")
+    10.1073/pnas.1009362108
+    >>> normalize("doi:10.1073/pnas.1009362108")
+    10.1073/pnas.1009362108
+    >>> normalize("  DOI: 10.1073/pnas.1009362108 ")
+    10.1073/pnas.1009362108
+    """
     return doi
 
 def resolve(doi, format):
