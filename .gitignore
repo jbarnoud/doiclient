@@ -1,0 +1,10 @@
+# python stuff
+*.py[cod]
+# vim stuff
+.*.sw[a-z]
+*.un~
+Session.vim
+.netrwhist
+# splitleafs stuff
+test_output.ndx
+test_error.txt
