@@ -8,3 +8,8 @@ Session.vim
 # splitleafs stuff
 test_output.ndx
 test_error.txt
+# setuptools/distutils stuff
+build/
+dist/
+doiclient.egg-info/
+
