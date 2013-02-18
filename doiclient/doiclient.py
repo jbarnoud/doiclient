@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 
-#import requests
-from .exceptions import *
+import requests
+#from .exceptions import *
 
+DOI_URL = 'http://dx.doi.org/'
 SHORTCUTS = {
     "xml": "application/rdf+xml",
     "turtle": "text/turtle",
@@ -32,11 +33,38 @@ def normalize(doi):
     """
     return doi
 
-def resolve(doi, format):
-    pass
+def request(doi, content_type):
+    header = {"Accept": content_type}
+    url = DOI_URL + doi
+    query = requests.get(url, headers=header)
+    return query
+
+def resolve(doi, content_type):
+    return request(doi, content_type).text
 
 def json(doi):
-    pass
+    return request(doi, "application/vnd.citationstyles.csl+json").json()
 
-def _format_content_type(format):
-    pass
+def _format_content_type(content_type):
+    """
+    Convert content type from a python data structure to something usable by
+    the server
+
+    Content type negociation accepts 3 different formats:
+    - a single mimetype
+    - a list of mimetypes
+    - a list of weighted mimetypes
+
+    The functions in this module accept:
+    - a single mimetype as a string
+    - a list of mimetypes
+    - a dictionnary with mimetypes as keys and the associated weigth as values
+
+    In addition the functions accept shortcuts for mimetype as defined in the
+    SHORTCUTS constant.
+
+    This function returns a string usable as a content type.
+    """
+    if hasattr(content_type, items):
+        return ", ".join([";q=".join(item) for item in content_type.items()])
+    
