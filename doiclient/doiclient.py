@@ -16,34 +16,32 @@ SHORTCUTS = {
 }
 
 
-def normalize(doi):
-    """
-    Normalize a DOI
-
-    A DOI can be formated on several ways. This function aims to translate the
-    into a canonical one that look like <prefix>/<sufix>. Extra spacing
-    characters is removed so as "doi", "DOI", "doi:", or "DOI:" strings.
-
-    >>> normalize("10.1073/pnas.1009362108")
-    10.1073/pnas.1009362108
-    >>> normalize("doi:10.1073/pnas.1009362108")
-    10.1073/pnas.1009362108
-    >>> normalize("  DOI: 10.1073/pnas.1009362108 ")
-    10.1073/pnas.1009362108
-    """
-    return doi
-
 def request(doi, content_type):
+    """
+    Request doi resolution using content-type negociation and returns the
+    requests module response object.
+    """
     header = {"Accept": content_type}
     url = DOI_URL + doi
     query = requests.get(url, headers=header)
     return query
 
+
 def resolve(doi, content_type):
+    """
+    Request doi resolution using content-type negociation and returns the
+    response as a text string.
+    """
     return request(doi, content_type).text
 
+
 def json(doi):
+    """
+    Request doi resolution using content-type negociation and returns the
+    response as a json disctionnary.
+    """
     return request(doi, "application/vnd.citationstyles.csl+json").json()
+
 
 def _format_content_type(content_type):
     """
@@ -65,6 +63,5 @@ def _format_content_type(content_type):
 
     This function returns a string usable as a content type.
     """
-    if hasattr(content_type, items):
+    if hasattr(content_type, "items"):
         return ", ".join([";q=".join(item) for item in content_type.items()])
-    
