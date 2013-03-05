@@ -3,6 +3,8 @@
 import requests
 from .exceptions import *
 
+__all__ = ['request', 'resolve', 'json']
+
 DOI_URL = 'http://dx.doi.org/'
 SHORTCUTS = {
     "xml": "application/rdf+xml",
