@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import requests
-#from .exceptions import *
+from .exceptions import *
 
 DOI_URL = 'http://dx.doi.org/'
 SHORTCUTS = {
@@ -24,6 +24,12 @@ def request(doi, content_type):
     header = {"Accept": content_type}
     url = DOI_URL + doi
     query = requests.get(url, headers=header)
+    if query.status_code == 204:
+        raise NoMetadataError
+    elif query.status_code == 404:
+        raise NoDOIError
+    elif query.status_code == 406:
+        raise ContentTypeError
     return query
 
 
