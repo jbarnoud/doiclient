@@ -40,7 +40,8 @@ def resolve(doi, content_type):
     Request doi resolution using content-type negociation and returns the
     response as a text string.
     """
-    return request(doi, content_type).text
+    response = request(doi, content_type)
+    return response.text, response.headers['content-type']
 
 
 def json(doi):
