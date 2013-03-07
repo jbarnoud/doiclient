@@ -23,7 +23,7 @@ def request(doi, content_type):
     Request doi resolution using content-type negociation and returns the
     requests module response object.
     """
-    header = {"Accept": _format_content_type(content_type}
+    header = {"Accept": _format_content_type(content_type)}
     url = DOI_URL + doi
     query = requests.get(url, headers=header)
     if query.status_code == 204:
