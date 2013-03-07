@@ -71,5 +71,11 @@ def _format_content_type(content_type):
 
     This function returns a string usable as a content type.
     """
+    if isinstance(content_type, str):
+        return SHORTCUTS.get(content_type, content_type)
     if hasattr(content_type, "items"):
-        return ", ".join([";q=".join(item) for item in content_type.items()])
+        expended_content_type = {SHORTCUTS.get(key, key): weight
+                                 for key, weight in content_type.items()}
+        return ", ".join([";q=".join((key, str(value)))
+                          for key, value in expended_content_type.items()])
+    return ", ".join(SHORTCUTS.get(value, value) for value in content_type)
